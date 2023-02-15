@@ -10,7 +10,11 @@ class AnneeDropdown extends StatefulWidget {
 }
 
 class _AnneeDropdownState extends State<AnneeDropdown> {
+  var currentdate = DateTime.now();
+  int currentMonth = 0;
   String dropdownvalueYear = '2023';
+  List<String> fixedLengthList = [];
+
   var listeAnnees = [
     '2023',
     '2022',
@@ -18,6 +22,15 @@ class _AnneeDropdownState extends State<AnneeDropdown> {
     '2020',
     '2019',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    currentMonth = currentdate.year;
+    fixedLengthList = List<String>.generate(
+        30, (int index) => (currentMonth - index).toString(),
+        growable: false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +56,7 @@ class _AnneeDropdownState extends State<AnneeDropdown> {
         ),
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         value: dropdownvalueYear,
-        items: listeAnnees.map((String items) {
+        items: fixedLengthList.map((String items) {
           return DropdownMenuItem(
             value: items,
             child: Text(items),

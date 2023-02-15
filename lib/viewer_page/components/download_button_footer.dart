@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:listen/constants.dart';
 
-class SuivantButton extends StatefulWidget {
-  const SuivantButton({
+class DownloadButtonFooter extends StatefulWidget {
+  const DownloadButtonFooter({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<SuivantButton> createState() => _SuivantButtonState();
+  State<DownloadButtonFooter> createState() => _DownloadButtonFooterState();
 }
 
-class _SuivantButtonState extends State<SuivantButton> {
+class _DownloadButtonFooterState extends State<DownloadButtonFooter> {
   @override
   Widget build(BuildContext context) {
     Size s = MediaQuery.of(context).size;
@@ -23,37 +23,30 @@ class _SuivantButtonState extends State<SuivantButton> {
           //child: DecoratedBox(
           //decoration: const BoxDecoration(gradient: kgradient),
           child: SizedBox(
-            width: s.width * 0.5,
+            width: 100,
             height: 50,
             child: ElevatedButton(
-                onPressed: () => {Get.toNamed("/viewerpdf")},
+                onPressed: () => {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: k1c, //Colors.transparent,
                   foregroundColor: Colors.black,
-                  elevation: 3,
+                  elevation: 9,
                   shape: RoundedRectangleBorder(
+                    // side: const BorderSide(
+                    //     color: k1c,
+                    //     strokeAlign: 1.5,
+                    //     style: BorderStyle.solid,
+                    //     width: 2),
                     borderRadius: BorderRadius.circular(7.0),
                   ),
                 ),
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        'Suivant',
-                        style: TextStyle(
-                            fontSize: 17,
-                            letterSpacing: 2,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700),
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.white,
-                      )
-                    ],
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                  child: Icon(
+                    Icons.file_download_outlined,
+                    color: Colors.white,
+                    size: 30,
                   ),
                 )),
           ),

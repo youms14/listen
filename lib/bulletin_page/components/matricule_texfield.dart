@@ -12,6 +12,7 @@ class MatriculeTextfield extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       child: TextFormField(
+        autofocus: true,
         cursorColor: k1c,
         decoration: const InputDecoration(
           hintText: 'Ex: 128765T',

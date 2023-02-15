@@ -13,10 +13,14 @@ import 'package:flutter_background_service_android/flutter_background_service_an
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'bulletin_page/components/custom_appbar_bull.dart';
+import 'bulletin_page/controllers/swith_bull_component_controller.dart';
 import 'main_page/components/custom_appbar.dart';
 
 import 'main_page/controllers/custom_app_controller.dart';
 import 'main_page/main_page.dart';
+import 'viewer_page/components/custom_appbar_viewer.dart';
+import 'viewer_page/syncfusion_viewer.dart';
+import 'viewer_page/viewer_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +28,8 @@ Future<void> main() async {
   Get.put(CustomAppBar());
   Get.put(CustomAppBarBull());
   Get.put(CustomAppController());
+  Get.put(CustomAppBarViewer());
+  Get.put(SwitchBullComponentController());
 
   runApp(const MyApp());
 }
@@ -283,12 +289,21 @@ class MyApp extends StatelessWidget {
           name: "/bulletin",
           page: () => BulletinPage(),
         ),
+        // GetPage(
+        //   name: "/viewerpdf",
+        //   page: () => ViewerPdfPage(),
+        // ),
+        GetPage(
+          name: "/viewerpdf",
+          page: () => SyncfusionViewer(),
+        ),
       ],
       initialRoute: "/main",
     );
   }
 }
-
+//ViewerPdfPage
+//SyncfusionViewer
 
 // class MyApp extends StatefulWidget {
 //   const MyApp({super.key});

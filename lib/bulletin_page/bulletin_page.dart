@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'components/custom_appbar_bull.dart';
+import 'components/mes_bull_component.dart';
 import 'components/new_bull_component.dart';
 
 class BulletinPage extends StatefulWidget {
@@ -22,9 +23,7 @@ class _BulletinPageState extends State<BulletinPage> {
             child: Get.find<CustomAppBarBull>()), //Get.find<CustomAppBar>()),
         body: TabBarView(children: [
           NewBullComponent(),
-          Column(
-            children: [Text("Mes Bull"), Text("Bull")],
-          ),
+          MesBullComponent(),
           Column(
             children: [Text("Aide Bull"), Text("Bull")],
           ),

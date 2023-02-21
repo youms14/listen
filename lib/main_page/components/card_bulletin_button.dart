@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../controllers/custom_app_controller.dart';
 
@@ -18,6 +19,7 @@ class _CardBulletinButtonState extends State<CardBulletinButton> {
     Size s = MediaQuery.of(context).size;
     return InkWell(
       onTap: () => {
+        _customAppController.localPath,
         _customAppController.setLeading('bulletin'),
         Get.toNamed('/bulletin')
       },

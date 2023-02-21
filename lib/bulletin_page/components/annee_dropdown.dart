@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../api/bulletins_api_controller.dart';
 import '../../constants.dart';
 
 class AnneeDropdown extends StatefulWidget {
@@ -10,26 +12,22 @@ class AnneeDropdown extends StatefulWidget {
 }
 
 class _AnneeDropdownState extends State<AnneeDropdown> {
+  final BulletinApiController _bullApiController =
+      Get.find<BulletinApiController>();
   var currentdate = DateTime.now();
-  int currentMonth = 0;
-  String dropdownvalueYear = '2023';
+  int currentYear = 0;
+  String dropdownvalueYear = '';
   List<String> fixedLengthList = [];
-
-  var listeAnnees = [
-    '2023',
-    '2022',
-    '2021',
-    '2020',
-    '2019',
-  ];
 
   @override
   void initState() {
     super.initState();
-    currentMonth = currentdate.year;
+    currentYear = currentdate.year;
     fixedLengthList = List<String>.generate(
-        30, (int index) => (currentMonth - index).toString(),
+        30, (int index) => (currentYear - index).toString(),
         growable: false);
+    dropdownvalueYear = currentYear.toString();
+    _bullApiController.setAnnee(dropdownvalueYear);
   }
 
   @override
@@ -65,6 +63,7 @@ class _AnneeDropdownState extends State<AnneeDropdown> {
         onChanged: (String? newValue) {
           setState(() {
             dropdownvalueYear = newValue!;
+            _bullApiController.setAnnee(dropdownvalueYear);
           });
         },
       ),

@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:listen/constants.dart';
 
+import '../../api/bulletins_api_controller.dart';
 import '../../bulletin_page/components/custom_indicator.dart';
 import '../../main_page/controllers/custom_app_controller.dart';
 
@@ -17,6 +20,9 @@ class CustomAppBarBull extends StatefulWidget {
 class _CustomAppBarBullState extends State<CustomAppBarBull> {
   final CustomAppController _customAppController =
       Get.find<CustomAppController>();
+
+  final BulletinApiController _bullApiController =
+      Get.find<BulletinApiController>();
   @override
   Widget build(BuildContext context) {
     //Size s = MediaQuery.of(context).size;
@@ -46,6 +52,8 @@ class _CustomAppBarBullState extends State<CustomAppBarBull> {
                           onPressed: () {
                             if (_customAppController.leading.value != "main") {
                               _customAppController.leading("main");
+                              _bullApiController.listeDeFichiers =
+                                  RxList<File>.empty();
                               Get.back();
                             } else {
                               //Launch Drawer here

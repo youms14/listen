@@ -26,7 +26,7 @@ class _NewBullComponentState extends State<NewBullComponent> {
         //mainAxisAlignment: MainAxisAlignment.e,
         children: [
           SizedBox(
-            height: s.height * 0.03,
+            height: s.height * 0.026,
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -47,12 +47,13 @@ class _NewBullComponentState extends State<NewBullComponent> {
                   children: <TextSpan>[
                     TextSpan(
                       text:
-                          ': Vous avez accès uniquement à vos propres bulletins de solde, c\'est-à-dire les bulletins de soldes associés au matricule à votre matricule qui est: ',
+                          ': Vous avez accès uniquement à vos propres bulletins de solde, c\'est-à-dire les bulletins associés à votre matricule qui est: ',
                       style: DefaultTextStyle.of(context).style,
                     ),
                     const TextSpan(
                         text: 'C137988',
                         style: TextStyle(
+                          letterSpacing: 1.5,
                           fontWeight: FontWeight.bold,
                           decoration: TextDecoration.none,
                         )),

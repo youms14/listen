@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../api/bulletins_api_controller.dart';
 import 'components/custom_appbar_bull.dart';
 import 'components/mes_bull_component.dart';
 import 'components/new_bull_component.dart';
+import 'controllers/swith_bull_component_controller.dart';
 
 class BulletinPage extends StatefulWidget {
   const BulletinPage({super.key});
@@ -13,6 +15,18 @@ class BulletinPage extends StatefulWidget {
 }
 
 class _BulletinPageState extends State<BulletinPage> {
+  final SwitchBullComponentController _switchBullComponentController =
+      Get.find<SwitchBullComponentController>();
+  final BulletinApiController _bullApiController =
+      Get.find<BulletinApiController>();
+  @override
+  void initState() {
+    super.initState();
+    //Get.put(BulletinApiController());
+    //_bullApiController.getAllFilesFromPhoneDirectory();
+    _switchBullComponentController.setIsListFALSE();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

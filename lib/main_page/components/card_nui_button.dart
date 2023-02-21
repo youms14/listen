@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../api/bulletins_api_controller.dart';
 
 class CardNuiButton extends StatefulWidget {
   const CardNuiButton({super.key});
@@ -8,21 +11,25 @@ class CardNuiButton extends StatefulWidget {
 }
 
 class _CardNuiButtonState extends State<CardNuiButton> {
+  final BulletinApiController _bullApiController =
+      Get.find<BulletinApiController>();
   @override
   Widget build(BuildContext context) {
     Size s = MediaQuery.of(context).size;
     return InkWell(
-      onTap: () => {print("NUI Clicked")},
+      onTap: () => {
+        print("NUI Clicked"),
+      },
       child: Card(
         shape: RoundedRectangleBorder(
-          side: BorderSide(
+          side: const BorderSide(
             color: Colors.white,
           ),
           borderRadius: BorderRadius.circular(10.0), //<-- SEE HERE
         ),
         elevation: 35,
         color: Colors.white, //Color.fromARGB(255, 66, 146, 89),
-        child: Container(
+        child: SizedBox(
           width: s.width * 0.45,
           height: s.height * 0.17,
           child: Padding(

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:listen/constants.dart';
 
+import 'package:share_plus/share_plus.dart';
+
+import '../../api/bulletins_api_controller.dart';
+
 class ShareButton extends StatefulWidget {
   const ShareButton({
     Key? key,
@@ -12,9 +16,19 @@ class ShareButton extends StatefulWidget {
 }
 
 class _ShareButtonState extends State<ShareButton> {
+  final BulletinApiController _bullApiController =
+      Get.find<BulletinApiController>();
+
+  @override
+  void initState() {
+    super.initState();
+    //XFile xfile;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size s = MediaQuery.of(context).size;
+    XFile xfile;
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -26,7 +40,12 @@ class _ShareButtonState extends State<ShareButton> {
             width: s.width * 0.42,
             height: 50,
             child: ElevatedButton(
-                onPressed: () => {},
+                onPressed: () async {
+                  //xfile = XFile(_bullApiController.fullPathSave.value),
+                  xfile = XFile(_bullApiController.file[0].path);
+                  await Share.shareXFiles([xfile],
+                      text: 'Partager votre bulletin via:');
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white, //Colors.transparent,
                   foregroundColor: Colors.black,

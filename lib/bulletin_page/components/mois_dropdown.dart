@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../api/bulletins_api_controller.dart';
 import '../../constants.dart';
 
 class MoisDropDown extends StatefulWidget {
@@ -10,6 +12,8 @@ class MoisDropDown extends StatefulWidget {
 }
 
 class _MoisDropDownState extends State<MoisDropDown> {
+  final BulletinApiController _bullApiController =
+      Get.find<BulletinApiController>();
   String dropdownvalueMonth = '';
   var listeMois = [
     'Janvier',
@@ -23,7 +27,7 @@ class _MoisDropDownState extends State<MoisDropDown> {
     'Septembre',
     'Octobre',
     'Novembre',
-    'Decembre'
+    'Décembre'
   ];
   var date = DateTime.now();
 
@@ -31,6 +35,7 @@ class _MoisDropDownState extends State<MoisDropDown> {
   void initState() {
     super.initState();
     dropdownvalueMonth = listeMois[date.month - 1];
+    _bullApiController.setMois(date.month.toString());
   }
 
   @override
@@ -66,6 +71,8 @@ class _MoisDropDownState extends State<MoisDropDown> {
         onChanged: (String? newValue) {
           setState(() {
             dropdownvalueMonth = newValue!;
+            _bullApiController.setMois(
+                (listeMois.indexOf(dropdownvalueMonth) + 1).toString());
           });
         },
       ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:listen/constants.dart';
 
+import '../../api/bulletins_api_controller.dart';
+
 class DownloadButton extends StatefulWidget {
   const DownloadButton({
     Key? key,
@@ -12,6 +14,14 @@ class DownloadButton extends StatefulWidget {
 }
 
 class _DownloadButtonState extends State<DownloadButton> {
+  final BulletinApiController _bullApiController =
+      Get.find<BulletinApiController>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size s = MediaQuery.of(context).size;
@@ -26,7 +36,59 @@ class _DownloadButtonState extends State<DownloadButton> {
             width: s.width * 0.45,
             height: 50,
             child: ElevatedButton(
-                onPressed: () => {},
+                onPressed: () => {
+                      _bullApiController.downloadBull().then((value) {
+                        if (value) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Icon(
+                                    Icons.check_circle_rounded,
+                                    color: k1c,
+                                    size: 50,
+                                  ),
+                                  content: Obx(() => Text(
+                                      "Bulletin téléchargé avec succès.\n Il se trouve dans le dossier: \n\n${_bullApiController.fullPathSave}.")),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text(
+                                        "Ok",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      onPressed: () => {Navigator.pop(context)},
+                                    )
+                                  ],
+                                );
+                              });
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Image.asset(
+                                    "assets/images/not_available.png",
+                                    height: 50,
+                                    width: 50,
+                                  ),
+                                  content: Obx(() => Text(
+                                      "Ce bulletin est déjà téléchargé.\n Il se trouve dans le dossier: \n\n${_bullApiController.fullPathSave} de votre smartphone.")),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text(
+                                        "Ok",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      onPressed: () => {Navigator.pop(context)},
+                                    )
+                                  ],
+                                );
+                              });
+                        }
+                      })
+                    },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white, //Colors.transparent,
                   foregroundColor: Colors.black,

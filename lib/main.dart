@@ -12,8 +12,13 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import 'api/bulletins_api_controller.dart';
 import 'bulletin_page/components/custom_appbar_bull.dart';
 import 'bulletin_page/controllers/swith_bull_component_controller.dart';
+import 'configuration_pages/architec_page.dart';
+import 'configuration_pages/begin_page.dart';
+import 'configuration_pages/controllers/question_controller.dart';
+import 'intro_page.dart';
 import 'main_page/components/custom_appbar.dart';
 
 import 'main_page/controllers/custom_app_controller.dart';
@@ -30,6 +35,8 @@ Future<void> main() async {
   Get.put(CustomAppController());
   Get.put(CustomAppBarViewer());
   Get.put(SwitchBullComponentController());
+  Get.put(BulletinApiController());
+  Get.put(QuestionController());
 
   runApp(const MyApp());
 }
@@ -49,6 +56,9 @@ Future<void> initializeService() async {
     description:
         'This channel is used for important notifications.', // description
     importance: Importance.high, // importance must be at low or higher level
+    playSound: true,
+    enableLights: true,
+    enableVibration: true,
   );
 //flutter_local_notification
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -289,16 +299,24 @@ class MyApp extends StatelessWidget {
           name: "/bulletin",
           page: () => BulletinPage(),
         ),
-        // GetPage(
-        //   name: "/viewerpdf",
-        //   page: () => ViewerPdfPage(),
-        // ),
         GetPage(
           name: "/viewerpdf",
           page: () => SyncfusionViewer(),
         ),
+        GetPage(
+          name: "/intro",
+          page: () => IntroPage(),
+        ),
+        GetPage(
+          name: "/begin",
+          page: () => BeginPage(),
+        ),
+        GetPage(
+          name: "/architec",
+          page: () => ArchitecPage(),
+        ),
       ],
-      initialRoute: "/main",
+      initialRoute: "/architec",
     );
   }
 }

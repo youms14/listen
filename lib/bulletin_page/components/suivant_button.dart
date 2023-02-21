@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:listen/constants.dart';
 
+import '../../api/bulletins_api_controller.dart';
+
 class SuivantButton extends StatefulWidget {
   const SuivantButton({
     Key? key,
@@ -12,6 +14,9 @@ class SuivantButton extends StatefulWidget {
 }
 
 class _SuivantButtonState extends State<SuivantButton> {
+  final BulletinApiController _bullApiController =
+      Get.find<BulletinApiController>();
+
   @override
   Widget build(BuildContext context) {
     Size s = MediaQuery.of(context).size;
@@ -26,7 +31,12 @@ class _SuivantButtonState extends State<SuivantButton> {
             width: s.width * 0.5,
             height: 50,
             child: ElevatedButton(
-                onPressed: () => {Get.toNamed("/viewerpdf")},
+                onPressed: () async => {
+                      await _bullApiController.getBull(),
+                      _bullApiController.setTitreViewerPage(
+                          'Bulletin_${_bullApiController.getMois()}-${_bullApiController.getAnnee()}.pdf'),
+                      Get.toNamed("/viewerpdf")
+                    },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: k1c, //Colors.transparent,
                   foregroundColor: Colors.black,

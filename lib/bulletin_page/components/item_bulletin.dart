@@ -1,24 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
+
+import '../../api/bulletins_api_controller.dart';
+import '../../constants.dart';
 
 class ItemBulletin extends StatefulWidget {
-  const ItemBulletin({
+  ItemBulletin({
     super.key,
+    required this.index,
+    required this.moisAnnee,
+    required this.name,
   });
+
+  int index;
+  String moisAnnee;
+  String name;
 
   @override
   State<ItemBulletin> createState() => _ItemBulletinState();
 }
 
 class _ItemBulletinState extends State<ItemBulletin> {
+  final BulletinApiController _bullApiController =
+      Get.find<BulletinApiController>();
+
   @override
   Widget build(BuildContext context) {
+    XFile xfile;
     return CupertinoContextMenu(
       actions: <Widget>[
         CupertinoContextMenuAction(
           onPressed: () {
             Navigator.pop(context);
+            setState(() {
+              _bullApiController.file.clear();
+              _bullApiController.file
+                  .add(_bullApiController.listeDeFichiers[widget.index]);
+              _bullApiController.setTitreViewerPage(_bullApiController
+                  .listeDeFichiers[widget.index].path
+                  .split('/')
+                  .last);
+            });
             Get.toNamed("/viewerpdf");
           },
           isDefaultAction: true,
@@ -26,8 +50,11 @@ class _ItemBulletinState extends State<ItemBulletin> {
           child: const Text('Ouvrir'),
         ),
         CupertinoContextMenuAction(
-          onPressed: () {
+          onPressed: () async {
             Navigator.pop(context);
+            xfile = XFile(_bullApiController.file[0].path);
+            await Share.shareXFiles([xfile],
+                text: 'Partager votre bulletin via:');
           },
           trailingIcon: Icons.share,
           child: const Text('Partager'),
@@ -49,6 +76,60 @@ class _ItemBulletinState extends State<ItemBulletin> {
         CupertinoContextMenuAction(
           onPressed: () {
             Navigator.pop(context);
+            //Popup de confirmation
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    icon: const Icon(
+                      Icons.question_mark_sharp,
+                      color: Colors.red,
+                      size: 25,
+                    ),
+                    title: const Text(
+                        "Etes vous sûr(e) de vouloir supprimer ce bulletin?"),
+                    actions: [
+                      TextButton(
+                          onPressed: () async {
+                            Navigator.pop(context);
+                            await _bullApiController.file[0].delete();
+                            showCupertinoDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    icon: const Icon(
+                                      Icons.check_circle,
+                                      color: k1c,
+                                      size: 30,
+                                    ),
+                                    content: const Text(
+                                        "Bulletin supprimé avec succès."),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            Get.toNamed("/bulletin");
+                                          },
+                                          child: const Text("Ok"))
+                                    ],
+                                  );
+                                });
+                          },
+                          child: const Text(
+                            "Ok",
+                            style: TextStyle(color: Colors.red),
+                          )),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            "Annuler",
+                            style: TextStyle(color: k1c),
+                          ))
+                    ],
+                  );
+                });
           },
           isDestructiveAction: true,
           trailingIcon: CupertinoIcons.delete,
@@ -58,6 +139,16 @@ class _ItemBulletinState extends State<ItemBulletin> {
       child: Material(
         child: InkWell(
           onTap: () => {
+            //TODO:
+            setState(() {
+              _bullApiController.file.clear();
+              _bullApiController.file
+                  .add(_bullApiController.listeDeFichiers[widget.index]);
+              _bullApiController.setTitreViewerPage(_bullApiController
+                  .listeDeFichiers[widget.index].path
+                  .split('/')
+                  .last);
+            }),
             Get.toNamed("/viewerpdf"),
             print("=======OUVERTURE DU FICHIER"),
           },
@@ -92,7 +183,7 @@ class _ItemBulletinState extends State<ItemBulletin> {
                       Container(
                         //color: Colors.black.withOpacity(0.5),
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 246, 242, 242)
+                          color: const Color.fromARGB(255, 246, 242, 242)
                               .withOpacity(0.8),
                           borderRadius: const BorderRadius.only(
                               bottomLeft: Radius.circular(16),
@@ -100,10 +191,10 @@ class _ItemBulletinState extends State<ItemBulletin> {
                         ),
                         width: 100,
                         height: 30,
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            "12-2022",
-                            style: TextStyle(
+                            widget.moisAnnee,
+                            style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Color.fromARGB(221, 46, 46, 46),
                                 fontSize: 16),
@@ -112,13 +203,13 @@ class _ItemBulletinState extends State<ItemBulletin> {
                       )
                     ],
                   ),
-                  Container(
+                  SizedBox(
                     width: 110,
                     // height: 50,
-                    child: const Text(
-                      "Bulletin_12-2022.pdf",
+                    child: Text(
+                      widget.name,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 13,
                           height: 1.4,
                           letterSpacing: 1.5,

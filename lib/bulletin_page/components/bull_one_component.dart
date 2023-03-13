@@ -17,6 +17,7 @@ class BullOneComponent extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       child: Card(
+        //shape: ShapeBorder(sol),
         color: Colors.white,
         elevation: 9,
         child: Padding(

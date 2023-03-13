@@ -90,7 +90,7 @@ class _MesBullComponentState extends State<MesBullComponent> {
             ),
           ),
           SizedBox(
-            height: s.height * 0.7,
+            height: s.height * 0.66,
             child: SingleChildScrollView(
               child: _switchBullComponentController.getIsList()
                   ? Obx(() => ListView(

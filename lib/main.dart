@@ -38,7 +38,7 @@ Future<void> main() async {
   Get.put(BulletinApiController());
   Get.put(QuestionController());
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 // this will be used as notification channel id
@@ -279,7 +279,9 @@ void onStart(ServiceInstance service) async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+  final BulletinApiController _bullApiController =
+      Get.find<BulletinApiController>();
 
   @override
   Widget build(BuildContext context) {
@@ -316,7 +318,7 @@ class MyApp extends StatelessWidget {
           page: () => ArchitecPage(),
         ),
       ],
-      initialRoute: "/architec",
+      initialRoute: _bullApiController.isFake.value ? "/main" : "/intro",
     );
   }
 }

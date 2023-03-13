@@ -32,10 +32,49 @@ class _SuivantButtonState extends State<SuivantButton> {
             height: 50,
             child: ElevatedButton(
                 onPressed: () async => {
-                      await _bullApiController.getBull(),
-                      _bullApiController.setTitreViewerPage(
-                          'Bulletin_${_bullApiController.getMois()}-${_bullApiController.getAnnee()}.pdf'),
-                      Get.toNamed("/viewerpdf")
+                      await _bullApiController.getIfHasA20(),
+                      if (_bullApiController.hasA20.value)
+                        {
+                          await _bullApiController.getBull(),
+                          _bullApiController.setTitreViewerPage(
+                              'Bulletin_${_bullApiController.getMois()}-${_bullApiController.getAnnee()}.pdf'),
+                          Get.toNamed("/viewerpdf")
+                        }
+                      else
+                        {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  icon: SizedBox(
+                                    child: Image.asset(
+                                      "assets/images/not_available.png",
+                                      width: 50,
+                                      height: 50,
+                                    ),
+                                  ),
+                                  title: const Text('Oups!'),
+                                  //content: Text('Erreur de document\n$details'),
+                                  content: Text(
+                                      " Pour ce matriculele, le bulletin du mois ${_bullApiController.mois} de l'année ${_bullApiController.annee} n'est pas encore disponible. Merci de réessayer avec d'autres paramètres."),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge,
+                                      ),
+                                      child: const Text('Ok'),
+                                      onPressed: () {
+                                        //Navigator.of(context).pop();
+                                        Navigator.pop(context);
+                                        Get.toNamed('/bulletin');
+                                      },
+                                    ),
+                                  ],
+                                );
+                              })
+                        }
                     },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: k1c, //Colors.transparent,

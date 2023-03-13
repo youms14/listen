@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../api/bulletins_api_controller.dart';
 import '../controllers/custom_app_controller.dart';
 
 class CustomAppBar extends StatefulWidget {
@@ -15,6 +16,8 @@ class CustomAppBar extends StatefulWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   final CustomAppController _customAppController =
       Get.find<CustomAppController>();
+  final BulletinApiController _bullApiController =
+      Get.find<BulletinApiController>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,12 +60,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   )),
               title: Row(
                 children: [
-                  const Text(
-                    'Bonjour Alex',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  const SizedBox(
-                    width: 55,
+                  Text(
+                    '${_bullApiController.prenom.value}',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
                   IconButton(
                       onPressed: () {},

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get.dart';
 import 'package:listen/api/client.dart';
@@ -9,6 +10,9 @@ import 'package:path_provider/path_provider.dart';
 
 class BulletinApiController extends GetxController {
   //late Dio apiClient;
+  String ipAdress = '192.168.43.112';
+  // String ipAdress = '10.100.212.106'; //Cenadi
+  //String ipAdress = '172.31.31.216'; //maison
   RxString matricule = ''.obs;
   Dio dio = Dio();
   late RxString annee = ''.obs;
@@ -21,6 +25,12 @@ class BulletinApiController extends GetxController {
   RxList<File> file = RxList<File>.empty();
   RxList<File> listeDeFichiers = RxList<File>.empty();
   RxString _titreViewerPage = ''.obs;
+  RxBool isFake = false.obs;
+  RxBool hasA20 = false.obs;
+  RxString name = ''.obs;
+  RxString prenom = ''.obs;
+  RxString sexe = ''.obs;
+
   // BulletinApiController() {
   //   apiClient = Client() as Dio;
   // }
@@ -46,20 +56,6 @@ class BulletinApiController extends GetxController {
   }
 
   String get titreViewerPage => _titreViewerPage.value;
-// Future<void> initPlatformState() async {
-//     _setPath();
-//     if (!mounted) return;
-// }
-// void _setPath() async {
-//     Directory _path = await getApplicationDocumentsDirectory();
-//     String _localPath = _path.path + Platform.pathSeparator + 'Download';
-//     final savedDir = Directory(_localPath);
-//     bool hasExisted = await savedDir.exists();
-//     if (!hasExisted) {
-//         savedDir.create();
-//     }
-//     path = _localPath;
-// }
 
   Future<bool> downloadBull() async {
     try {
@@ -105,6 +101,45 @@ class BulletinApiController extends GetxController {
     }
   }
 
+  var reponseP;
+
+  getProfile() async {
+    try {
+      reponseP = await dio
+          .get('http://$ipAdress:3000/profile/${matricule.toUpperCase()}');
+      logger.e(reponseP.data["statutCode"]);
+      if (reponseP.data["statutCode"].toString() == "2000") {
+        isFake(true);
+        name(reponseP.data["datas"][0]["nom"].toString());
+        prenom(reponseP.data["datas"][0]["prenom"].toString());
+        sexe(reponseP.data["datas"][0]["sexe"].toString());
+        logger.e('${name.value}|${prenom.value}|${sexe.value}');
+      } else {
+        isFake(false);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  var reponseA20;
+  getIfHasA20() async {
+    try {
+      reponseA20 = await dio
+          .get('http://$ipAdress:3000/ishasa20/${matricule.toUpperCase()}');
+      logger.e(reponseA20.data["statutCode"]);
+      if (reponseA20.data["statutCode"].toString() == "2000") {
+        hasA20(true);
+
+        logger.e('${hasA20.value}');
+      } else {
+        hasA20(false);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   getBull() async {
     try {
       var tempDir = await getTemporaryDirectory();
@@ -119,7 +154,7 @@ class BulletinApiController extends GetxController {
       fullPathTemp(fullPath1);
 
       response = await dio.get(
-        'http://10.100.212.106:3000/newbullpdf/$matricule/$annee/$mois',
+        'http://$ipAdress:3000/newbullpdf/${matricule.toUpperCase()}/$annee/$mois',
         //'http://192.168.43.112:3000/newbullpdf/810386J/$annee/$mois',
         //onReceiveProgress: showDownloadProgress,
         //Received data with List<int>
@@ -151,7 +186,7 @@ class BulletinApiController extends GetxController {
     logger.d('CHEMIN:  ${fullPathTemp}');
     //return true;
     // var response = await dio.download(
-    //   'http://10.100.212.106:3000/newbullpdf/810386J/2022/12',
+    //   'http://$ipAdress:3000/newbullpdf/810386J/2022/12',
     //   '${(await getTemporaryDirectory()).path}bull.pdf',
     // );
   }

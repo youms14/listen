@@ -88,7 +88,7 @@ class _MainPageState extends State<MainPage> {
                     padding: EdgeInsets.all(3.0),
                     child: Center(
                       child: Text(
-                        "Copirigth(c) MINFI/CENADI-2023",
+                        "Copirigth(c) 2023 CENADI",
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Colors.white,

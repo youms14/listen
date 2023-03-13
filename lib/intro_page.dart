@@ -25,9 +25,12 @@ class _IntroPageState extends State<IntroPage> {
         title: "Editer son Bulletin".toUpperCase(),
         description:
             "Désormais, plus besoins de tracasseries pour avoir vos bulletins de solde. Tous vos bulletins dans votre pôche!",
-        pathImage: "assets/images/bulletins.png",
-        heightImage: 400,
-        widthImage: 400,
+        centerWidget: Image.asset(
+          "assets/images/bulletins.png",
+          width: 230,
+        ),
+        //pathImage: "assets/images/bulletins.png",
+        // widthImage: 150,
         styleTitle: const TextStyle(
             color: Colors.black,
             fontSize: 32,
@@ -46,10 +49,13 @@ class _IntroPageState extends State<IntroPage> {
         title: "Option de Téléchargement".toUpperCase(),
         description:
             "Vous pouvez concerver de façon permanente vos bulletins dans la mémoire de votre smartphone.",
-        pathImage: "assets/images/download.png",
+        centerWidget: Image.asset(
+          "assets/images/download.png",
+          width: 230,
+        ),
+        //pathImage: "assets/images/download.png",
         backgroundColor: Colors.white,
-        heightImage: 300,
-        widthImage: 100,
+        //widthImage: 150,
         styleTitle: const TextStyle(
             color: Colors.black,
             fontSize: 25,
@@ -67,10 +73,14 @@ class _IntroPageState extends State<IntroPage> {
         title: "Option de Partage".toUpperCase(),
         description:
             "Vous pouvez partager un bulletin via whatsApp, facebook, email, etc...",
-        pathImage: "assets/images/share2.png",
+        centerWidget: Image.asset(
+          "assets/images/share2.png",
+          width: 230,
+        ),
+        //pathImage: "assets/images/share2.png",
         backgroundColor: Colors.white,
-        heightImage: 400,
-        widthImage: 400,
+        //heightImage: 200,
+        widthImage: 150,
         styleTitle: const TextStyle(
             color: Colors.black,
             fontSize: 32,
@@ -89,10 +99,13 @@ class _IntroPageState extends State<IntroPage> {
         title: "Position Solde".toUpperCase(),
         description:
             "Recevez une notification quand votre position solde(Net à percevoir) est disponible.",
-        pathImage: "assets/images/position.png",
+        centerWidget: Image.asset(
+          "assets/images/position.png",
+          width: 230,
+        ),
+        //pathImage: "assets/images/position.png",
         backgroundColor: Colors.white,
-        heightImage: 400,
-        widthImage: 400,
+        //widthImage: 150,
         styleTitle: const TextStyle(
             color: Colors.black,
             fontSize: 32,
@@ -111,10 +124,13 @@ class _IntroPageState extends State<IntroPage> {
         title: "Mes Informations".toUpperCase(),
         description:
             "Consulation et mis à jour de vos informations personnelles.",
-        pathImage: "assets/images/personnal2.png",
+        centerWidget: Image.asset(
+          "assets/images/personnal2.png",
+          width: 230,
+        ),
+        //pathImage: "assets/images/personnal2.png",
         backgroundColor: Colors.white,
-        heightImage: 400,
-        widthImage: 200,
+        //widthImage: 150,
         styleTitle: const TextStyle(
             color: Colors.black,
             fontSize: 32,
@@ -131,7 +147,7 @@ class _IntroPageState extends State<IntroPage> {
 
   void onDonePress() {
     logger.e("End of slides");
-    Get.toNamed("/main");
+    Get.toNamed("/architec");
   }
 
   @override

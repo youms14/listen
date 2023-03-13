@@ -72,7 +72,7 @@ class _CustomAppBarBullState extends State<CustomAppBarBull> {
                     title: Row(
                       children: [
                         const Text(
-                          'Bonjour Alex',
+                          'Bulletins',
                           style: TextStyle(color: Colors.white),
                         ),
                         const SizedBox(
